@@ -34,6 +34,8 @@ var colors={
 }
 
 function putpart(code,type){
+	if(type.length>10)
+		type="keyword";
 	var color=colors[type]||colors["text"];
 	for(var i=0;i<code.length;i++){
 		if(x>=width){
