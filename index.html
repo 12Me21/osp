@@ -1,9 +1,17 @@
-<meta charset="UTF-8"> 
+<meta charset="utf-8">
 
-<script defer src="screen.js"></script>
-<script defer src="decode.js"></script>
-<script src="https://12Me21.github.io/sbhighlight2/sbhighlight.js"></script>
-<input type="file" id="imageUpload" accept="image/jpeg"/>
+
+<img hidden id="fontimage" src="font.png"></img>
+<canvas hidden id="sc" width="400" height="240"></canvas>
+
+<input type="file" id="imageUpload" accept="image/*"/>
 <hr>
-<canvas id="screen"></canvas>
-<img hidden id="fontimage" src="https://12Me21.github.io/qsp/font.png">
+<img id="screenshot"></img>
+<canvas id="graph"></canvas>
+<hr>
+<canvas id="screen" width="400" height="240"></canvas>
+
+
+<script src="screen.js"></script>
+<script src="onload.js"></script>
+<script src="https://12Me21.github.io/sbhighlight2/sbhighlight.js"></script>
