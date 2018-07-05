@@ -4,14 +4,29 @@
 <img hidden id="fontimage" src="font.png"></img>
 <canvas hidden id="sc" width="400" height="240"></canvas>
 
-<input type="file" id="imageUpload" accept="image/*"/>
-<hr>
-<img id="screenshot"></img>
-<canvas id="graph"></canvas>
-<hr>
-<canvas id="screen" width="400" height="240"></canvas>
-
+<fieldset><legend>Input:</legend>
+	<input type="file" id="imageUpload" accept="image/*"/>
+	<button onclick="putcode(decode(screenshot));">Convert</button><br>
+	<form id="colors">
+		<fieldset><legend>Colors:</legend>
+			Text:<input name="text"       type="color" value="#FFFFFF"></input>
+			Number:<input name="number"     type="color" value="#F67BD5"></input>
+			String:<input name="string"     type="color" value="#A0A0A0"></input>
+			Function:<input name="function"   type="color" value="#7A7Cf7"></input>
+			Keyword:<input name="keyword"    type="color" value="#6BBDF5"></input>
+			Comment:<input name="comment"    type="color" value="#10B630"></input>
+			Label:<input name="label"      type="color" value="#F7A600"></input>
+			Background:<input disabled name="background" type="color" value="#000000"></input>
+		</fieldset>
+	</form>
+	<img id="screenshot"></img>
+	<canvas id="graph"></canvas>
+</fieldset>
+<fieldset><legend>Output:</legend>
+	<canvas id="screen" width="400" height="240"></canvas>
+</fieldset>
 
 <script src="screen.js"></script>
 <script src="onload.js"></script>
 <script src="https://12Me21.github.io/sbhighlight2/sbhighlight.js"></script>
+

@@ -27,30 +27,34 @@ var colors={
 	"text"     : "rgb(255,255,255)",
 	"keyword"  : "rgb(107,189,245)",
 	"number"   : "rgb(246,123,213)",
-	"string"   : "rgb(160,160, 160)",
+	"string"   : "rgb(160,160,160)",
 	"comment"  : "rgb( 16,182, 48)",
 	"label"    : "rgb(247,166,  0)",
 	"function" : "rgb(122,124,247)"
 }
+
+var nextNewLine;
 
 function putpart(code,type){
 	if(type && type.length>10)
 		type="keyword";
 	var color=colors[type]||colors["text"];
 	for(var i=0;i<code.length;i++){
-		if(x>=width){
-			x=0;
-			y++;
-			passline();
-		}
-		putchar(x+bw,y,code.charCodeAt(i),color)
-		x++
-		if(code.charAt(i)=="\n"){
+		if(nextNewLine){
+			console.log(code.charCodeAt(i));
 			x=0;
 			y++;
 			line++;
 			startline(line);
 		}
+		if(x>=width){
+			x=0;
+			y++;
+			passline();
+		}
+		putchar(x+bw,y,code.charCodeAt(i),color);
+		x++;
+		nextNewLine=code.charAt(i)=="\n";
 	}
 }
 
@@ -78,6 +82,11 @@ function passline(){
 }
 
 function putcode(code){
+	var form = document.getElementById("colors");
+	for(var i in colors){
+		colors[i] = form[i].value;
+	}
+	nextNewLine=false;
 	x=0;
 	y=0;
 	line=1;
