@@ -119,6 +119,8 @@ function brightnessMidRange(data){
 	return (min+max)/2
 }
 
+var textFile;
+
 var font=Array(16*64);
 window.onload=function(){
 	var fc=document.createElement("canvas");
@@ -133,13 +135,25 @@ window.onload=function(){
 	s2d=sc.getContext("2d");
 	
 	imageUpload.onchange = function () {
-		var reader = new FileReader();
-		reader.onload = function () {
-			screenshot.onload = function () {
-				putcode(decode(screenshot));
-			};
-			screenshot.src = reader.result;
-		};
-		reader.readAsDataURL(imageUpload.files[0]);
+		if(imageUpload.files && imageUpload.files[0]){
+			var type = imageUpload.files[0].type;
+			var reader = new FileReader();
+			if(type.startsWith("image/")){
+				textFile=false;
+				reader.onload = function () {
+					screenshot.onload = function () {
+						putcode(decode(screenshot));
+					};
+					screenshot.src = reader.result;
+				};
+				reader.readAsDataURL(imageUpload.files[0]);
+			}else{
+				reader.onload = function () {
+					textFile=reader.result;
+					putcode(textFile);
+				};
+				reader.readAsText(imageUpload.files[0]);
+			}
+		}
 	};
 }
