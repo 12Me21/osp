@@ -1,38 +1,48 @@
+<!DOCTYPE html>
 <meta charset="utf-8">
 
 
-<img hidden id="fontimage" src="font.png"></img>
+<img hidden id="fontimage" src="font.png">
 <canvas hidden id="sc" width="400" height="240"></canvas>
 
-<fieldset><legend>Input:</legend>
-	<input type="file" id="imageUpload"/>
-	<button onclick="if(textFile==false)putcode(decode(screenshot));else putcode(textFile);">Convert</button><br>
-	<form id="colors">
-		<fieldset><legend>Colors:</legend>
-			Text:
-			<input name="text"       type="color" value="#FFFFFF"></input>
-			Number:
-			<input name="number"     type="color" value="#F67BD5"></input>
-			String:
-			<input name="string"     type="color" value="#A0A0A0"></input>
-			Function:
-			<input name="function"   type="color" value="#7A7Cf7"></input>
-			Keyword:
-			<input name="keyword"    type="color" value="#6BBDF5"></input>
-			Comment:
-			<input name="comment"    type="color" value="#10B630"></input>
-			Label:
-			<input name="label"      type="color" value="#F7A600"></input>
-			Background:
-			<input name="background" type="color" value="#000000"></input>
-		</fieldset>
-	</form>
-	<img id="screenshot"></img>
-	<canvas id="graph"></canvas>
-</fieldset>
-<fieldset><legend>Output:</legend>
-	<canvas id="screen" width="400" height="240"></canvas>
-</fieldset>
+<form>
+	<fieldset><legend>JPEG Screenshot:</legend>
+		<input type="file" name="imagefileinput" accept="image/*"/>
+		<br>
+		<img id="imagedisplay">
+		<canvas id="imagehistogram"></canvas>
+	</fieldset>
+	
+	<fieldset><legend>Code:</legend>
+		<input type="file" name="textfileinput"/>
+		<br>
+		<textarea name="textinput"></textarea>
+		<hr>
+		Text:
+		<input name="text"       type="color" value="#FFFFFF" onchange="go();">
+		Number:
+		<input name="number"     type="color" value="#F67BD5" onchange="go();">
+		String:
+		<input name="string"     type="color" value="#A0A0A0" onchange="go();">
+		Function:
+		<input name="function"   type="color" value="#7A7Cf7" onchange="go();">
+		<br>
+		Keyword:
+		<input name="keyword"    type="color" value="#6BBDF5" onchange="go();">
+		Comment:
+		<input name="comment"    type="color" value="#10B630" onchange="go();">
+		Label:
+		<input name="label"      type="color" value="#F7A600" onchange="go();">
+		Background:
+		<input name="background" type="color" value="#000000" onchange="go();">
+		<br>
+		<input type="button" name="convert2" value="generate screenshot" onclick="go();">
+	</fieldset>
+	
+	<fieldset><legend>Output:</legend>
+		<canvas id="imageoutput" width="400" height="240"></canvas>
+	</fieldset>
+</form>
 
 <script src="screen.js"></script>
 <script src="onload.js"></script>
