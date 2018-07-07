@@ -51,11 +51,7 @@ function go(){
 	for(var i in colors)
 		colors[i]=parseInt(form[i].value.substr(1),16);
 	makeScreenshot(form.textinput.value,colors);
-	draw();
-}
-
-function draw(){
-	form.imageoutput.src=bufferCanvas.toDataURL(form.jpeg.checked?"image/jpeg":"image/png",1);
+	form.imageoutput.src=bufferCanvas.toDataURL("image/png");
 }
 
 var s2d;
