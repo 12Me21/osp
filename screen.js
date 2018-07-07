@@ -3,10 +3,12 @@ var lookup={0:[0,0],9:[9,0],10:[13,0],13:[13,0],32:[32,0],33:[33,0],34:[34,0],35
 
 var x,y,line,fullWidth=50,fullHeight=30,charSize=8,bw=4;
 var width=fullWidth-bw,height=fullHeight-1;
+var background;
 
 var bufferCanvas=document.createElement("canvas");
-bufferCanvas.width=bufferCanvas.height=charSize;
-var bufferContext=bufferCanvas.getContext("2d");
+bufferCanvas.width=400;
+bufferCanvas.height=240;
+var screenContext=bufferCanvas.getContext("2d");
 
 var colors={};
 
@@ -15,7 +17,7 @@ var nextNewLine;
 function putpart(code,type){
 	if(type && type.length>10)
 		type="keyword";
-	var color=colors[type]||colors["text"];
+	var color=colors[type]!==undefined?colors[type]:colors["text"];
 	for(var i=0;i<code.length;i++){
 		if(nextNewLine){
 			console.log(code.charCodeAt(i));
@@ -50,31 +52,30 @@ function startline(line){
 			symbol=0xE100+n;
 		if(n)
 			started=true;
-		putchar(i,y,symbol,"#C6C6C6");
+		putchar(i,y,symbol,0xC6C6C6);
 	}
-	putchar(3,y,0xE16F,"#C6C6C6");
+	putchar(3,y,0xE16F,0xC6C6C6);
 }
 
 function passline(){
 	for(var i=0;i<3;i++)
-		putchar(i,y,0xE17E,"#C6C6C6");
-	putchar(3,y,0xE17F,"#C6C6C6");
+		putchar(i,y,0xE17E,0xC6C6C6);
+	putchar(3,y,0xE17F,0xC6C6C6);
 }
 
-function putcode(code,canvas,newColors){
-	console.log(code);
-	
-	editor=canvas;
-	screenContext=editor.getContext("2d");
-	editor.width=fullWidth*charSize;
-	editor.height=fullHeight*charSize;
+function toCssColor(color){
+	return "rgb("+(color>>16)+","+(color>>8 & 255)+","+(color & 255)+")";
+}
+
+function makeScreenshot(code,newColors){
 	colors=newColors;
 	nextNewLine=false;
 	x=0;
 	y=0;
 	line=1;
 	
-	screenContext.fillStyle=colors.background;
+	background=colors.background;
+	screenContext.fillStyle=toCssColor(background);
 	screenContext.fillRect(0,0,fullWidth*charSize,fullHeight*charSize);
 	startline(line);
 	highlight(code,putpart);
@@ -87,17 +88,18 @@ function putcode(code,canvas,newColors){
 	for(;y<height;y++)
 		passline();
 	for(var i=0;i<bw;i++)
-		putchar(i,height,0xE17A,"#C6C6C6");
+		putchar(i,height,0xE17A,0xC6C6C6);
 	var char;
 	for(var i=0;i<width;i+=2){
 		if(i<10)
 			char=0xE170+i;
 		else
 			char=0xE100+i;
-		putchar(i+bw,height,char,"#C6C6C6");
+		putchar(i+bw,height,char,0xC6C6C6);
 		if(i<width-1)
-			putchar(i+1+bw,height,0xE17A,"#C6C6C6");
+			putchar(i+1+bw,height,0xE17A,0xC6C6C6);
 	}
+	return bufferCanvas.toDataURL();
 }
 
 function putchar(x,y,char,color){
@@ -105,14 +107,19 @@ function putchar(x,y,char,color){
 }
 
 function put(x,y,pos,color){
-	bufferContext.clearRect(0,0,charSize,charSize);
-	bufferContext.drawImage(fontimage,pos[0]*8,pos[1]*8,8,8,0,0,charSize,charSize);
-	bufferContext.globalCompositeOperation="multiply";
-	bufferContext.fillStyle=color;
-	bufferContext.fillRect(0,0,charSize,charSize);
-	bufferContext.globalCompositeOperation="source-over";
+	var data=f2d.getImageData(pos[0]*8,pos[1]*8,8,8);
+	for(var i=0;i<data.data.length;i+=4){
+		if(data.data[i+3]==255){
+			data.data[i  ] *= (color>>16)/255
+			data.data[i+1] *= (color>>8 & 0xFF)/255
+			data.data[i+2] *= (color    & 0xFF)/255
+		}else{
+			data.data[i  ] = background>>16
+			data.data[i+1] = background>>8 & 0xFF
+			data.data[i+2] = background    & 0xFF
+			data.data[i+3] = 0xFF;
+		}
+	}
 	
-	screenContext.globalCompositeOperation="lighten";
-	screenContext.drawImage(bufferCanvas,0,0,charSize,charSize,x*charSize,y*charSize,charSize,charSize);
-	screenContext.globalCompositeOperation="source-over";
+	screenContext.putImageData(data,x*charSize,y*charSize);
 }

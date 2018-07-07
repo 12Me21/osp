@@ -2,6 +2,8 @@ var posToChar={/*0:0,*/1:57857,2:57858,3:57859,4:57860,5:57861,6:57862,7:57863,8
 
 var form = document.getElementsByTagName("form")[0];
 
+var f2d;
+
 form.imagedisplay = document.getElementById("imagedisplay");
 form.imagehistogram = document.getElementById("imagehistogram");
 form.imageoutput = document.getElementById("imageoutput");
@@ -44,12 +46,9 @@ function go(){
 		"comment":null,
 		"background":null
 	}
-	for(var i in colors){
-		colors[i]=form[i].value;
-	}
-	putcode(form.textinput.value,form.imageoutput,colors);
-	
-	
+	for(var i in colors)
+		colors[i]=parseInt(form[i].value.substr(1),16);
+	form.imageoutput.src=makeScreenshot(form.textinput.value,colors);
 }
 
 var s2d;
@@ -175,34 +174,11 @@ window.onload=function(){
 	var fc=document.createElement("canvas");
 	fc.height=fontimage.height;
 	fc.width=fontimage.width;
-	var f2d=fc.getContext("2d");
+	f2d=fc.getContext("2d");
 	f2d.drawImage(fontimage,0,0);
 	
 	for(var i in posToChar)
 		font[i]=toBw(f2d.getImageData(i%64*8,Math.floor(i/64)*8,8,8).data,127);
 	
 	s2d=sc.getContext("2d");
-	
-	/*imageUpload.onchange = function () {
-		if(imageUpload.files && imageUpload.files[0]){
-			var type = imageUpload.files[0].type;
-			var reader = new FileReader();
-			if(type.startsWith("image/")){
-				textFile=false;
-				reader.onload = function () {
-					screenshot.onload = function () {
-						putcode(decode(screenshot));
-					};
-					screenshot.src = reader.result;
-				};
-				reader.readAsDataURL(imageUpload.files[0]);
-			}else{
-				reader.onload = function () {
-					textFile=reader.result;
-					putcode(textFile);
-				};
-				reader.readAsText(imageUpload.files[0]);
-			}
-		}
-	};*/
 }
