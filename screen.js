@@ -99,7 +99,6 @@ function makeScreenshot(code,newColors){
 		if(i<width-1)
 			putchar(i+1+bw,height,0xE17A,0xC6C6C6);
 	}
-	return bufferCanvas.toDataURL();
 }
 
 function putchar(x,y,char,color){
