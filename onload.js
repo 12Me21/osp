@@ -60,7 +60,7 @@ function decode(screenshot,graph){
 	s2d.drawImage(screenshot,0,0);
 	var data=s2d.getImageData(4*8,0,400-4*8,240-8).data;
 	var table=brightnessTable(data);
-	var threshold=widestGap(table,20);
+	var threshold=widestGap(table);
 	if(brightness(data[8*400*4],data[8*400*4+1],data[8*400*4+2])>threshold)
 		var invert=true;
 	histogram(graph,table,240);
