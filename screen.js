@@ -77,12 +77,14 @@ function codeHeight(code,cols){
 	var rows=0;
 	var rowLength=0;
 	for(var i=0;i<code.length;i++){ //slow xd
-		rowLength++;
+		++rowLength
 		if(code.charAt(i)=="\n"){
 			rows+=Math.ceil(rowLength/cols);
 			rowLength=0;
 		}
 	}
+	if(rowLength)
+		++rows;
 	return rows;
 }
 
