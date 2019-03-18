@@ -21,6 +21,8 @@ var colors={};
 var nextNewLine;
 
 function putpart(code,type){
+	if(y>=height)
+		return;
 	if(type && type.length>10)
 		type="keyword";
 	var color=colors[type]!==undefined?colors[type]:colors["text"];
@@ -36,9 +38,8 @@ function putpart(code,type){
 			y++;
 			passline();
 		}
-		if(y>=height){
+		if(y>=height)
 			return;
-		}
 		putchar(x+bw,y,code.charCodeAt(i),color);
 		x++;
 		nextNewLine=code.charAt(i)=="\n";
