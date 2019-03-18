@@ -37,7 +37,7 @@ function putpart(code,type){
 			y++;
 			passline();
 		}
-		if(y==height){
+		if(y>=height){
 			return;
 		}
 		putchar(x+bw,y,code.charCodeAt(i),color);
@@ -73,7 +73,9 @@ function toCssColor(color){
 	return "rgb("+(color>>16)+","+(color>>8 & 255)+","+(color & 255)+")";
 }
 
-function makeScreenshot(code,newColors){
+function makeScreenshot(code,newColors,rows){
+	changeHeight(rows || 29);
+	
 	colors=newColors;
 	nextNewLine=false;
 	x=0;
