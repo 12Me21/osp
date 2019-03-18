@@ -78,13 +78,11 @@ function codeHeight(code,cols){
 	var rowLength=0;
 	for(var i=0;i<code.length;i++){ //slow xd
 		++rowLength
-		if(code.charAt(i)=="\n"){
+		if(code.charAt(i)=="\n" || i==code.length-1){
 			rows+=Math.ceil(rowLength/cols);
 			rowLength=0;
 		}
 	}
-	if(rowLength)
-		++rows;
 	return rows;
 }
 
