@@ -10,6 +10,12 @@ bufferCanvas.width=400;
 bufferCanvas.height=240;
 var screenContext=bufferCanvas.getContext("2d");
 
+function changeHeight(rows){
+	height=rows;
+	fullHeight=height+1;
+	bufferCanvas.height=fullHeight*charSize;
+}
+
 var colors={};
 
 var nextNewLine;
