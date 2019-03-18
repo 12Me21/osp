@@ -25,6 +25,7 @@ function putpart(code,type){
 		type="keyword";
 	var color=colors[type]!==undefined?colors[type]:colors["text"];
 	for(var i=0;i<code.length;i++){
+		if(nextNewLine){
 			x=0;
 			y++;
 			line++;
