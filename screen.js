@@ -25,8 +25,6 @@ function putpart(code,type){
 		type="keyword";
 	var color=colors[type]!==undefined?colors[type]:colors["text"];
 	for(var i=0;i<code.length;i++){
-		if(nextNewLine){
-			console.log(code.charCodeAt(i));
 			x=0;
 			y++;
 			line++;
@@ -73,8 +71,21 @@ function toCssColor(color){
 	return "rgb("+(color>>16)+","+(color>>8 & 255)+","+(color & 255)+")";
 }
 
+function codeHeight(code,cols){
+	var rows=0;
+	var rowLength=0;
+	for(var i=0;i<code.length;i++){ //slow xd
+		rowLength++;
+		if(code.charAt(i)=="\n"){
+			rows+=Math.ceil(rowLength/cols);
+			rowLength=0;
+		}
+	}
+	return rows;
+}
+
 function makeScreenshot(code,newColors,rows){
-	changeHeight(Number(rows) || (code.match(/\n/g) || []).length);
+	changeHeight(Number(rows) || codeHeight(code,width));
 	
 	colors=newColors;
 	nextNewLine=false;
