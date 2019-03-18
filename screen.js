@@ -48,7 +48,7 @@ function putpart(code,type){
 function startline(line){
 	var started=false,n,symbol;
 	for(var i=0;i<3;i++){
-		n=Math.floor(line/Math.pow(100,2-i));
+		n=Math.floor(line/Math.pow(100,2-i)) % 100;
 		if(n==0&&!started)
 			symbol=0xE16E;
 		else if(n<10&&started)
