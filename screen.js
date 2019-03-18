@@ -74,7 +74,7 @@ function toCssColor(color){
 }
 
 function makeScreenshot(code,newColors,rows){
-	changeHeight(rows || 29);
+	changeHeight(rows || (code.match(/\n/g) || []).length);
 	
 	colors=newColors;
 	nextNewLine=false;
