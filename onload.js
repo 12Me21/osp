@@ -50,7 +50,7 @@ function go(){
 	}
 	for(var i in colors)
 		colors[i]=parseInt(form[i].value.substr(1),16);
-	makeScreenshot(form.textinput.value,colors);
+	makeScreenshot(form.textinput.value,colors,form.rows.value);
 	form.imageoutput.src=bufferCanvas.toDataURL("image/png");
 }
 
