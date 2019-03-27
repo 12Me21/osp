@@ -186,40 +186,18 @@ window.onload=function(){
 	s2d=sc.getContext("2d");
 }
 
-function argbToHex(argb){
-	return "#"+((argb & 0xFFFFFF) | 0x1000000).toString(16).substr(1)// + (argb>>>8*3 | 0x100).toString(16).substr(1);
-}
-
 function doConfig(th){
-	var reader=new FileReader();
-	reader.onload=function(){
-		data = readConfig(reader.result);
-		console.log(data);
-		form.comment.value = argbToHex(data.colors.comment);
-		form.keyword.value = argbToHex(data.colors.keyword);
-		form.string.value = argbToHex(data.colors.string);
-		form.label.value = argbToHex(data.colors.label);
-		form.number.value = argbToHex(data.colors.numeric);
-		form.text.value = argbToHex(data.colors.text);
-		form["function"].value = argbToHex(data.colors.statement);
-		form.background.value = argbToHex(data.colors.background);
+	var reader = new FileReader();
+	reader.onload = function(){
+		data = SBConfig.readConfig(reader.result);
+		form.comment.    value = SBConfig.argbToHex(data.colors.comment   );
+		form.keyword.    value = SBConfig.argbToHex(data.colors.keyword   );
+		form.string.     value = SBConfig.argbToHex(data.colors.string    );
+		form.label.      value = SBConfig.argbToHex(data.colors.label     );
+		form.number.     value = SBConfig.argbToHex(data.colors.numeric   );
+		form.text.       value = SBConfig.argbToHex(data.colors.text      );
+		form["function"].value = SBConfig.argbToHex(data.colors.statement );
+		form.background. value = SBConfig.argbToHex(data.colors.background);
 	};
 	reader.readAsArrayBuffer(th.files[0]);
-}
-
-//config is arraybuffer
-function readConfig(config){
-	if(config.byteLength != 0x610)
-		return null;
-	config = new DataView(config);
-	return ({colors:{
-		comment: config.getInt32(0x0A4,true),
-		keyword: config.getInt32(0x0A8,true),
-		string: config.getInt32(0x0AC,true),
-		label: config.getInt32(0x0B0,true),
-		numeric: config.getInt32(0x0B4,true),
-		text: config.getInt32(0x0B8,true),
-		statement: config.getInt32(0x600,true),
-		background: config.getInt32(0x604,true)
-	}});
 }
