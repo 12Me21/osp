@@ -17,26 +17,28 @@
 		<input type="file" name="textfileinput"/>
 		<br>
 		<textarea name="textinput"></textarea>
-		<br>
-		Rows: <input name="rows" type="number" value="29"> (default: 29)
 		<hr>
+		QSP: <input name="qsp" type="checkbox"><br>
+		Full Height: <input name="tall" type="checkbox"><br>
+		read colors from config.dat: <input name="config" type="file" oninput="doConfig(this)">
+		<br>
 		Text:
-		<input name="text"       type="color" value="#FFFFFF" onchange="go();">
+		<input name="text"       type="color" value="#FFFFFF">
 		Number:
-		<input name="number"     type="color" value="#F67BD5" onchange="go();">
+		<input name="number"     type="color" value="#F67BD5">
 		String:
-		<input name="string"     type="color" value="#A0A0A0" onchange="go();">
+		<input name="string"     type="color" value="#A0A0A0">
 		Function:
-		<input name="function"   type="color" value="#7A7Cf7" onchange="go();">
+		<input name="function"   type="color" value="#7A7Cf7">
 		<br>
 		Keyword:
-		<input name="keyword"    type="color" value="#6BBDF5" onchange="go();">
+		<input name="keyword"    type="color" value="#6BBDF5">
 		Comment:
-		<input name="comment"    type="color" value="#10B630" onchange="go();">
+		<input name="comment"    type="color" value="#10B630">
 		Label:
-		<input name="label"      type="color" value="#F7A600" onchange="go();">
+		<input name="label"      type="color" value="#F7A600">
 		Background:
-		<input name="background" type="color" value="#000000" onchange="go();">
+		<input name="background" type="color" value="#000000">
 		<br>
 		<input type="button" name="convert2" value="generate screenshot" onclick="go();">
 	</fieldset>
@@ -49,4 +51,3 @@
 <script src="screen.js"></script>
 <script src="onload.js"></script>
 <script src="https://12Me21.github.io/sbhighlight2/sbhighlight.js"></script>
-

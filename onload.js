@@ -50,7 +50,7 @@ function go(){
 	}
 	for(var i in colors)
 		colors[i]=parseInt(form[i].value.substr(1),16);
-	makeScreenshot(form.textinput.value,colors,form.rows.value);
+	makeScreenshot(form.textinput.value,colors,form.qsp.checked,form.tall.checked);
 	form.imageoutput.src=bufferCanvas.toDataURL("image/png");
 }
 
@@ -184,4 +184,42 @@ window.onload=function(){
 		font[i]=toBw(f2d.getImageData(i%64*8,Math.floor(i/64)*8,8,8).data,127);
 	
 	s2d=sc.getContext("2d");
+}
+
+function argbToHex(argb){
+	return "#"+((argb & 0xFFFFFF) | 0x1000000).toString(16).substr(1)// + (argb>>>8*3 | 0x100).toString(16).substr(1);
+}
+
+function doConfig(th){
+	var reader=new FileReader();
+	reader.onload=function(){
+		data = readConfig(reader.result);
+		console.log(data);
+		form.comment.value = argbToHex(data.colors.comment);
+		form.keyword.value = argbToHex(data.colors.keyword);
+		form.string.value = argbToHex(data.colors.string);
+		form.label.value = argbToHex(data.colors.label);
+		form.number.value = argbToHex(data.colors.numeric);
+		form.text.value = argbToHex(data.colors.text);
+		form["function"].value = argbToHex(data.colors.statement);
+		form.background.value = argbToHex(data.colors.background);
+	};
+	reader.readAsArrayBuffer(th.files[0]);
+}
+
+//config is arraybuffer
+function readConfig(config){
+	if(config.byteLength != 0x610)
+		return null;
+	config = new DataView(config);
+	return ({colors:{
+		comment: config.getInt32(0x0A4,true),
+		keyword: config.getInt32(0x0A8,true),
+		string: config.getInt32(0x0AC,true),
+		label: config.getInt32(0x0B0,true),
+		numeric: config.getInt32(0x0B4,true),
+		text: config.getInt32(0x0B8,true),
+		statement: config.getInt32(0x600,true),
+		background: config.getInt32(0x604,true)
+	}});
 }
